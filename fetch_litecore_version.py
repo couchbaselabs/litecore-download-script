@@ -61,8 +61,9 @@ def download_litecore(variants, debug: bool, dry: bool, build: str, repo: str, e
     download_folder = ""
     if build is None:
         build = get_cbl_build(repo)
-        if ee:
-            build += "-EE"
+
+    if ee and not build.endswith("-EE"):
+        build += "-EE"
     
     build_parts = validate_build(build)
     download_folder = f"http://latestbuilds.service.couchbase.com/builds/latestbuilds/couchbase-lite-core/{build_parts[0]}/{build_parts[1]}"

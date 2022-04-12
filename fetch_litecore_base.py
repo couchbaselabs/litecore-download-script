@@ -7,6 +7,7 @@ import tarfile
 import zipfile
 import urllib.request
 from pathlib import Path
+from shutil import rmtree
 from typing import Sequence
 from urllib.error import HTTPError
 
@@ -224,7 +225,9 @@ def download_variant(download_folder: str, variant: str, build: str, debug: bool
     download_path = calculate_download_path(variant, output_base)
     conditional_print(f"--- Downloading {filename} to {download_path}...")
     
-    os.makedirs(download_path, exist_ok=True)
+    if os.path.exists(download_path):
+        rmtree(download_path)
+    os.makedirs(download_path)
 
     full_path = f"{download_path}/{filename}"
     try:
