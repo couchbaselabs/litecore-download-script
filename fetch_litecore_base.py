@@ -251,13 +251,13 @@ def calculate_variants(original) -> set:
     final_variants = set()
     for v in original:
         if v == "dotnet":
-            final_variants |= {"linux", "android-x86_64", "android-x86", "android-armeabi-v7a", "android-arm64-v8a", "macosx", "ios", "windows-win64", "windows-win64-store", "windows-win32", "windows-win32-store", "windows-arm-store"}
+            final_variants |= {"linux", "android-x86_64", "android-x86", "android-armeabi-v7a", "android-arm64-v8a", "macosx", "ios", "windows-win64", "windows-win64-store", "windows-arm64", "windows-arm64-store"}
         elif v == "android":
             final_variants |= {"android-x86_64", "android-x86", "android-armeabi-v7a", "android-arm64-v8a"}
         elif v == "java":
             final_variants |= {"linux", "macosx", "windows-win64"}
         elif v == "windows":
-            final_variants |= {"windows-win64", "windows-win64-store", "windows-win32", "windows-win32-store", "windows-arm-store"}
+            final_variants |= {"windows-win64", "windows-win64-store", "windows-arm64", "windows-arm64-store"}
         elif v == "macos":
             final_variants |= {"macosx"}
         else:

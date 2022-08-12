@@ -24,11 +24,10 @@ Here is a list of the current values you can expect from each variant:
 | linux               | linux    | x86_64        |
 | macosx              | macos    | x86_64        |
 | ios                 | ios      | <empty>       | <-- multiple architectures all in one
-| windows-arm-store   | windows  | arm-store     |
-| windows-win32       | windows  | x86           |
-| windows-win32-store | windows  | x86-store     |
 | windows-win64       | windows  | x86_64        |
 | windows-win64-store | windows  | x86_64-store  |
+| windows-arm64       | windows  | arm64         |
+| windows-arm64-store | windows  | arm64-store   |
 """
 
 import argparse
