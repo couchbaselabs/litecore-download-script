@@ -234,7 +234,7 @@ def download_variant(download_folder: str, variant: str, build: str, debug: bool
         urllib.request.urlretrieve(download_url, full_path)
     except HTTPError as e:
         print(f"!!! Failed: {e.code}")
-        return 0
+        return 1
 
     conditional_print(f"--- Extracting {filename}...")
     if filename.endswith("tar.gz"):
@@ -245,7 +245,7 @@ def download_variant(download_folder: str, variant: str, build: str, debug: bool
             zip.extractall(download_path)
     
     os.remove(full_path)
-    return 1
+    return 0
 
 def calculate_variants(original) -> set:
     final_variants = set()
