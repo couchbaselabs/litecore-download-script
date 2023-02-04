@@ -200,6 +200,18 @@ def calculate_download_path(variant: str, output_base: str) -> Path:
     subdirectory = subdirectory_for_variant(variant_pair[0], variant_pair[1]) if has_platform else f"{variant_pair[0]}/{variant_pair[1]}"
     return output_base_path.joinpath(subdirectory).resolve()
 
+def unzip(src: str, dest: str):
+    with zipfile.ZipFile(src, 'r') as zip:
+        # Python doesn't have support for zipped symlinks?!
+        SYMLINK_TYPE  = 0xA
+        for zipinfo in zip.infolist():
+            if (zipinfo.external_attr >> 28) == SYMLINK_TYPE:
+                linkpath = zip.read(zipinfo.filename).decode('utf-8')
+                destpath = os.path.join(dest, zipinfo.filename)
+                os.symlink(linkpath, destpath)
+            else:
+                zip.extract(zipinfo, dest)
+
 def download_variant(download_folder: str, variant: str, build: str, debug: bool, output_base: str) -> int:
     """Performs the download and extraction of LiteCore artifacts
     
@@ -241,8 +253,7 @@ def download_variant(download_folder: str, variant: str, build: str, debug: bool
         with tarfile.open(full_path, "r:gz") as tar:
             tar.extractall(download_path)
     else:
-        with zipfile.ZipFile(full_path) as zip:
-            zip.extractall(download_path)
+        unzip(full_path, download_path)
     
     os.remove(full_path)
     return 0
