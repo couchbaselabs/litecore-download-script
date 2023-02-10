@@ -11,7 +11,7 @@ from shutil import rmtree
 from typing import Sequence
 from urllib.error import HTTPError
 
-VALID_PLATFORMS = ["android", "android-x86_64", "android-x86", "android-armeabi-v7a", "android-arm64-v8a", "centos6", "dotnet", "java", "linux", "macos", "macosx", "ios", "windows", "windows-arm-store", "windows-win32", "windows-win32-store", "windows-win64", "windows-win64-store"]
+VALID_PLATFORMS = ["android", "android-x86_64", "android-x86", "android-armeabi-v7a", "android-arm64-v8a", "centos6", "dotnet", "java", "linux", "macos", "macosx", "ios", "windows", "windows-arm64", "windows-arm64-store", "windows-win64", "windows-win64-store"]
 
 has_platform = False
 quiet = False
@@ -169,8 +169,6 @@ def variant_to_pair(variant: str) -> Sequence[str]:
     
     if abi.find("win64") != -1:
         return ["windows", abi.replace("win64", "x86_64")]
-    elif abi.find("win32") != -1:
-        return ["windows", abi.replace("win32", "x86")]
     else:
         return [osname, abi]
 
