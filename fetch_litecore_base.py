@@ -11,7 +11,7 @@ from shutil import rmtree
 from typing import Sequence
 from urllib.error import HTTPError
 
-VALID_PLATFORMS = ["android", "android-x86_64", "android-x86", "android-armeabi-v7a", "android-arm64-v8a", "centos6", "dotnet", "java", "linux", "macos", "macosx", "ios", "windows", "windows-arm64", "windows-arm64-store", "windows-win64", "windows-win64-store"]
+VALID_PLATFORMS = ["android", "android-x86_64", "android-x86", "android-armeabi-v7a", "android-arm64-v8a", "centos6", "dotnet", "java", "linux", "macos", "macosx", "ios", "ios/net", "windows", "windows-arm64", "windows-arm64-store", "windows-win64", "windows-win64-store"]
 
 has_platform = False
 quiet = False
@@ -42,6 +42,9 @@ def filename_for_platform(platform: str, debug: bool, build: str = None) -> str:
     str
         The filename to download from the build server
     """
+
+    if platform == "ios/net":
+        platform = "ios"
 
     debug_str = "-debug" if debug else ""
     ext = "tar.gz" if platform == "linux" or platform == "centos6" else "zip"
@@ -158,7 +161,7 @@ def variant_to_pair(variant: str) -> Sequence[str]:
     if variant == "macosx":
         return ["macos", ""]
 
-    if variant == "ios":
+    if variant.startswith("ios"):
         return ["ios", ""]
 
     first_dash = variant.index("-")
@@ -253,14 +256,16 @@ def download_variant(download_folder: str, variant: str, build: str, debug: bool
     else:
         unzip(full_path, download_path)
     
-    os.remove(full_path)
+    if variant != "ios/net":
+        os.remove(full_path)
+
     return 0
 
 def calculate_variants(original) -> set:
     final_variants = set()
     for v in original:
         if v == "dotnet":
-            final_variants |= {"linux", "android-x86_64", "android-x86", "android-armeabi-v7a", "android-arm64-v8a", "macosx", "ios", "windows-win64", "windows-win64-store", "windows-arm64", "windows-arm64-store"}
+            final_variants |= {"linux", "android-x86_64", "android-x86", "android-armeabi-v7a", "android-arm64-v8a", "macosx", "ios/net", "windows-win64", "windows-win64-store", "windows-arm64", "windows-arm64-store"}
         elif v == "android":
             final_variants |= {"android-x86_64", "android-x86", "android-armeabi-v7a", "android-arm64-v8a"}
         elif v == "java":
