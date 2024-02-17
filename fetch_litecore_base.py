@@ -11,7 +11,7 @@ from shutil import rmtree
 from typing import Sequence
 from urllib.error import HTTPError
 
-VALID_PLATFORMS = ["android", "android-x86_64", "android-x86", "android-armeabi-v7a", "android-arm64-v8a", "centos6", "dotnet", "java", "linux", "macos", "macosx", "ios", "ios/net", "windows", "windows-arm64", "windows-arm64-store", "windows-win64", "windows-win64-store"]
+VALID_PLATFORMS = ["android", "android-x86_64", "android-x86", "android-armeabi-v7a", "android-arm64-v8a", "centos6", "dotnet", "java", "linux", "macos", "macosx", "ios", "ios/net", "windows", "windows-arm64", "windows-win64"]
 
 has_platform = False
 quiet = False
@@ -265,13 +265,13 @@ def calculate_variants(original) -> set:
     final_variants = set()
     for v in original:
         if v == "dotnet":
-            final_variants |= {"linux", "android-x86_64", "android-x86", "android-armeabi-v7a", "android-arm64-v8a", "macosx", "ios/net", "windows-win64", "windows-win64-store", "windows-arm64", "windows-arm64-store"}
+            final_variants |= {"linux", "android-x86_64", "android-x86", "android-armeabi-v7a", "android-arm64-v8a", "macosx", "ios/net", "windows-win64", "windows-arm64"}
         elif v == "android":
             final_variants |= {"android-x86_64", "android-x86", "android-armeabi-v7a", "android-arm64-v8a"}
         elif v == "java":
             final_variants |= {"linux", "macosx", "windows-win64"}
         elif v == "windows":
-            final_variants |= {"windows-win64", "windows-win64-store", "windows-arm64", "windows-arm64-store"}
+            final_variants |= {"windows-win64", "windows-arm64"}
         elif v == "macos":
             final_variants |= {"macosx"}
         else:
