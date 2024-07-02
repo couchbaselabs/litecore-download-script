@@ -248,6 +248,9 @@ def download_variant(download_folder: str, variant: str, build: str, debug: bool
     except HTTPError as e:
         print(f"!!! Failed: {e.code}")
         return 1
+    
+    if variant == "ios/net":
+        return 0
 
     conditional_print(f"--- Extracting {filename}...")
     if filename.endswith("tar.gz"):
@@ -255,9 +258,6 @@ def download_variant(download_folder: str, variant: str, build: str, debug: bool
             tar.extractall(download_path)
     else:
         unzip(full_path, download_path)
-    
-    if variant != "ios/net":
-        os.remove(full_path)
 
     return 0
 
